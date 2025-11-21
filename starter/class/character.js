@@ -1,32 +1,24 @@
-const Character = require('./Character');
-const Food = require('./food');
-
-class Player extends Character {
-  constructor(name, currentRoom) {
-    super(name, currentRoom, 20, 3); // stronger than default
+class Character {
+  constructor(name, currentRoom, health = 10, strength = 1) {
+    this.name = name;
+    this.currentRoom = currentRoom;
+    this.health = health;
+    this.strength = strength;
+    this.items = [];
   }
 
-  takeItem(item) {
-    this.items.push(item);
-    console.log(`${this.name} picked up ${item.name}`);
+  getItemByName(name) {
+    return this.items.find(item => item.name === name) || null;
   }
 
-  dropItem(item) {
-    this.items = this.items.filter(i => i !== item);
-    this.currentRoom.items.push(item);
-    console.log(`${this.name} dropped ${item.name}`);
+  isAlive() {
+    return this.health > 0;
   }
 
-  eatItem(itemName) {
-    const item = this.getItemByName(itemName);
-    if (!item) return console.log("You don't have that item.");
-    if (!(item instanceof Food)) return console.log("You can't eat that!");
-    this.items = this.items.filter(i => i !== item);
-    this.health += 5; // Eating restores health
-    console.log(`${this.name} eats ${itemName}. Health is now ${this.health}`);
+  applyDamage(amount) {
+    this.health -= amount;
+    if (this.health < 0) this.health = 0;
   }
 }
 
-module.exports = {
-  Character,
-};
+module.exports = { Character };
