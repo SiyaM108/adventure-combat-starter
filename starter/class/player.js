@@ -34,33 +34,67 @@ class Player extends Character {
   }
 
   takeItem(itemName) {
-
-    // Fill this in
-
+    const item = this.currentRoom.getItemByName(itemName);
+    if (!item) {
+      console.log(`There is no ${itemName} here.`);
+      return;
+    }
+    this.items.push(item);
+    this.currentRoom.items = this.currentRoom.items.filter(i => i !== item);
+    console.log(`You picked up the ${itemName}.`);
   }
 
   dropItem(itemName) {
-
-    // Fill this in
-
+    const item = this.getItemByName(itemName);
+    if (!item) {
+      console.log(`You don't have ${itemName}.`);
+      return;
+    }
+    this.items = this.items.filter(i => i !== item);
+    this.currentRoom.items.push(item);
+    console.log(`You dropped the ${itemName}.`);
   }
 
   eatItem(itemName) {
-
-    // Fill this in
-
+    const item = this.getItemByName(itemName);
+    if (!item) {
+      console.log(`You don't have ${itemName}.`);
+      return;
+    }
+    if (!(item instanceof Food)) {
+      console.log(`You can't eat the ${itemName}!`);
+      return;
+    }
+    this.items = this.items.filter(i => i !== item);
+    this.health += 5; // Eating restores health
+    console.log(`You eat the ${itemName}. Health is now ${this.health}.`);
   }
 
+
   getItemByName(name) {
-
-    // Fill this in
-
+    return this.items.find(item => item.name === name) || null;
   }
 
   hit(name) {
+    if (!this.currentRoom.enemies) {
+      console.log("There are no enemies here.");
+      return;
+    }
 
-    // Fill this in
+    const enemy = this.currentRoom.enemies.find(e => e.name === name);
+    if (!enemy) {
+      console.log(`No enemy named ${name} here.`);
+      return;
+    }
 
+    console.log(`You hit ${enemy.name} for ${this.strength} damage!`);
+    enemy.applyDamage(this.strength);
+
+    if (enemy.isAlive()) {
+      enemy.target = this; // Enemy will attack you back
+    } else {
+      console.log(`${enemy.name} has been defeated!`);
+    }
   }
 
   die() {
