@@ -1,18 +1,33 @@
 class Character {
-
-  constructor(name, description, currentRoom) {
-    // Fill this in
-
+  constructor(name, currentRoom, health = 10, strength = 2) {
+    this.name = name;
+    this.currentRoom = currentRoom;
+    this.health = health;
+    this.strength = strength;
+    this.items = [];
   }
 
-  applyDamage(amount) {
-    // Fill this in
+  isAlive() {
+    return this.health > 0;
   }
 
-  die() {
-    // Fill this in
+  takeDamage(amount) {
+    this.health -= amount;
+    console.log(`${this.name} takes ${amount} damage! Health: ${this.health}`);
+    if (!this.isAlive()) {
+      console.log(`${this.name} has died!`);
+    }
   }
 
+  getItemByName(name) {
+    return this.items.find(item => item.name === name) || null;
+  }
+
+  attack(target) {
+    if (!target || !target.isAlive()) return;
+    console.log(`${this.name} attacks ${target.name} for ${this.strength} damage!`);
+    target.takeDamage(this.strength);
+  }
 }
 
 module.exports = {
