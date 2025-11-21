@@ -1,3 +1,4 @@
+// character.js
 class Character {
   constructor(name, currentRoom, health = 10, strength = 1) {
     this.name = name;
@@ -8,7 +9,7 @@ class Character {
   }
 
   getItemByName(name) {
-    return this.items.find(item => item.name === name) || null;
+    return this.items.find(item => item.name.toLowerCase() === name.toLowerCase()) || null;
   }
 
   isAlive() {
