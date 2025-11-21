@@ -1,32 +1,29 @@
-class Character {
-  constructor(name, currentRoom, health = 10, strength = 2) {
-    this.name = name;
-    this.currentRoom = currentRoom;
-    this.health = health;
-    this.strength = strength;
-    this.items = [];
+const Character = require('./Character');
+const Food = require('./food');
+
+class Player extends Character {
+  constructor(name, currentRoom) {
+    super(name, currentRoom, 20, 3); // stronger than default
   }
 
-  isAlive() {
-    return this.health > 0;
+  takeItem(item) {
+    this.items.push(item);
+    console.log(`${this.name} picked up ${item.name}`);
   }
 
-  takeDamage(amount) {
-    this.health -= amount;
-    console.log(`${this.name} takes ${amount} damage! Health: ${this.health}`);
-    if (!this.isAlive()) {
-      console.log(`${this.name} has died!`);
-    }
+  dropItem(item) {
+    this.items = this.items.filter(i => i !== item);
+    this.currentRoom.items.push(item);
+    console.log(`${this.name} dropped ${item.name}`);
   }
 
-  getItemByName(name) {
-    return this.items.find(item => item.name === name) || null;
-  }
-
-  attack(target) {
-    if (!target || !target.isAlive()) return;
-    console.log(`${this.name} attacks ${target.name} for ${this.strength} damage!`);
-    target.takeDamage(this.strength);
+  eatItem(itemName) {
+    const item = this.getItemByName(itemName);
+    if (!item) return console.log("You don't have that item.");
+    if (!(item instanceof Food)) return console.log("You can't eat that!");
+    this.items = this.items.filter(i => i !== item);
+    this.health += 5; // Eating restores health
+    console.log(`${this.name} eats ${itemName}. Health is now ${this.health}`);
   }
 }
 
