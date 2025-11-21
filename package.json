@@ -1,0 +1,20 @@
+{
+  "name": "adventure-combat-starter",
+  "version": "1.0.0",
+  "description": "Welcome to App Academy Adventure! For this project, you will be extending your original adventure game with an enemy class and asynchronous combat.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SiyaM108/adventure-combat-starter.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SiyaM108/adventure-combat-starter/issues"
+  },
+  "homepage": "https://github.com/SiyaM108/adventure-combat-starter#readme"
+}
